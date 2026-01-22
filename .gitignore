@@ -1,2 +1,5 @@
 .idea/
 .venv
+app\__pycache__/
+app\__pycache__
+weapons_list.csv
