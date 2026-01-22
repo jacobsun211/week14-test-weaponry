@@ -21,6 +21,7 @@ app = FastAPI(title="terrorists")
 from fastapi import FastAPI, File, UploadFile
 import pandas as pd
 from df_handler import create_risk_level, fill_manufacturer
+from db import create_SQL, insert_to_SQL
 
 app = FastAPI()
 
@@ -30,13 +31,17 @@ app = FastAPI()
 
 @app.post("/upload")
 def upload_file(file: UploadFile = File(...)):
-    
     df = pd.read_csv(file.file)
     df = pd.DataFrame(df)
     df = create_risk_level(df)
     df = fill_manufacturer(df)
+    create_SQL()
+    added = insert_to_SQL(df)
     file.file.close()
-    return {"file": file}
+    return {
+"status": "success",
+"inserted_records": 20
+}
 
 
 

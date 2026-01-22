@@ -2,6 +2,7 @@ import pandas as pd
 
 
 
+
 def create_risk_level(df):
     df['risk_level'] = pd.cut(df['range_km'],
                         bins=[0, 20, 100, 300, 1000],
