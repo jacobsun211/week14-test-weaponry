@@ -30,12 +30,12 @@ app = FastAPI()
 
 @app.post("/upload")
 def upload_file(file: UploadFile = File(...)):
+    
     df = pd.read_csv(file.file)
     df = pd.DataFrame(df)
     df = create_risk_level(df)
     df = fill_manufacturer(df)
     file.file.close()
-    print(df['manufacturer'])
     return {"file": file}
 
 

@@ -1,25 +1,45 @@
-import pandas as pd
-from models import Weapon
+# docker run --name mysql-db -e MYSQL_ROOT_PASSWORD=mypassword -e MYSQL_DATABASE=weapons -p 3306:3306 -d mysql:latest
 
 
-# df = pd.DataFrame(df)
+import mysql.connector
+from mysql.connector import Error
 
-file = "weapons_list.csv"
+config = {
+    'host': 'localhost',
+    'port': 3306,
+    'user': 'root',
+    'password': 'mypassword'
+}
 
-def muha(file: Weapon):
-    df = pd.read_csv(file)
-    df = pd.DataFrame(df)
-    return df
-
-
-
-df = muha(file)
-
-def create_risk_level():
-    df['risk_level'] = pd.cut(df['range_km'],
-                        bins=[0, 20, 100, 300, 1000],
-                        labels=['low','medium','high','extreme']) 
-
-
-def fill_manufacturer():
-    df['manufacturer'] = df['manufacturer'].fillna("Unknown")
+try:
+    conn = mysql.connector.connect(**config)
+    cursor = conn.cursor()
+    
+    cursor.execute("CREATE DATABASE IF NOT EXISTS weapons")
+    conn.commit()
+    print("Database 'weapons' created")
+    
+    cursor.execute("USE weapons")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS weapons (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            weapon_id VARCHAR(100)
+            weapon_name VARCHAR(100)
+            weapon_type VARCHAR(100)
+            range_km INT
+            weight_kg FLOAT
+            manufacturer VARCHAR(100)
+            origin_country VARCHAR(100)
+            storage_location VARCHAR(100)
+            year_estimated INT
+            risk_level VARCHAR(100)
+        )
+    """)
+    conn.commit()
+    print("Table created.")
+    
+except Error as e:
+    print(f"Error: {e}")
+finally:
+    cursor.close()
+    conn.close()
