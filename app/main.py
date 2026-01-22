@@ -39,9 +39,9 @@ def upload_file(file: UploadFile = File(...)):
     added = insert_to_SQL(df)
     file.file.close()
     return {
-"status": "success",
-"inserted_records": 20
-}
+        "status": "success",
+        "inserted_records": added
+        }
 
 
 
