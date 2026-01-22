@@ -1,20 +1,11 @@
 import pandas as pd
 from fastapi import FastAPI, File, UploadFile
-# from db import csv_validate, sort_by_danger_rate, validation_pydantic, save_to_mongodb
 import uvicorn
 from fastapi import FastAPI
 
-app = FastAPI(title="terrorists")
+app = FastAPI(title="weapons")
 
-# @app.post("/top-threats")   
-# def top_threats(file: UploadFile | None = File(default=None)):
-#     df = csv_validate(file)
-#     df = sort_by_danger_rate(df)
-#     terrorists_list = validation_pydantic(df)
-#     save_to_mongodb(terrorists_list)
-#     return {
-#         "count": len(terrorists_list),
-#         "top": terrorists_list}
+
 
 
 
@@ -47,4 +38,4 @@ def upload_file(file: UploadFile = File(...)):
 
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host="localhost", port=8000)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)

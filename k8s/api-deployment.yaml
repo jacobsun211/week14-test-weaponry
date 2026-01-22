@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-api
+  labels:
+    app: weaponry-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: weaponry-api
+  template:
+    metadata:
+      labels:
+        app: weaponry-api
+    spec:
+      containers:
+      - name: api
+        image: jacobsun211/weaponry-api:v1
+        ports:
+        - containerPort: 8000
